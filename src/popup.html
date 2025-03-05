@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Solana Token Analyzer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 350px;
+      padding: 15px;
+      margin: 0;
+      color: #333;
+    }
+    
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e1e8ed;
+    }
+    
+    .logo {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+    }
+    
+    .title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1DA1F2;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    
+    .api-key-input {
+      position: relative;
+    }
+    
+    .toggle-visibility {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #777;
+    }
+    
+    .button {
+      background-color: #1DA1F2;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      width: 100%;
+      transition: background-color 0.2s;
+    }
+    
+    .button:hover {
+      background-color: #0c8ae4;
+    }
+    
+    .status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      display: none;
+    }
+    
+    .status.success {
+      background-color: #e6f7ee;
+      color: #2b7d4f;
+      border: 1px solid #b7e3cb;
+    }
+    
+    .status.error {
+      background-color: #fde8e8;
+      color: #c53030;
+      border: 1px solid #f8caca;
+    }
+    
+    .config-note {
+      margin-top: 15px;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+    
+    .link {
+      color: #1DA1F2;
+      text-decoration: none;
+    }
+    
+    .link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="assets/icon32.png" alt="Logo" class="logo">
+    <div class="title">Solana Token Analyzer</div>
+  </div>
+  
+  <div class="form-group">
+    <label for="rapidapi-key">RapidAPI Key</label>
+    <div class="api-key-input">
+      <input type="password" id="rapidapi-key" placeholder="Enter your RapidAPI key">
+      <button class="toggle-visibility" data-for="rapidapi-key">👁️</button>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label for="openai-key">OpenAI API Key</label>
+    <div class="api-key-input">
+      <input type="password" id="openai-key" placeholder="Enter your OpenAI API key">
+      <button class="toggle-visibility" data-for="openai-key">👁️</button>
+    </div>
+  </div>
+  
+  <button id="save-button" class="button">Save Settings</button>
+  
+  <div id="status-message" class="status"></div>
+  
+  <div class="config-note">
+    <p>
+      <strong>获取API密钥:</strong><br>
+      • RapidAPI 密钥: <a href="https://rapidapi.com/alexanderxbx/api/twitter-api45" target="_blank" class="link">Twitter API45</a><br>
+      • OpenAI 密钥: <a href="https://platform.openai.com/api-keys" target="_blank" class="link">OpenAI API</a>
+    </p>
+    <p>
+      API密钥仅存储在你的浏览器本地，不会被上传或共享。
+    </p>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

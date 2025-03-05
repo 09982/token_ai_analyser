@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "Solana Token Analyzer",
+  "version": "1.0.0",
+  "description": "Detect Solana tokens and provide AI-powered analysis",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": [
+    "https://*.bianxie.ai/*",
+    "https://api.dexscreener.io/*",
+    "https://*.rapidapi.com/*",
+    "https://www.gmgn.cc/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://twitter.com/*", "https://x.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_end",
+      "all_frames": false,
+      "match_about_blank": true
+    }
+  ],
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  }
+}
