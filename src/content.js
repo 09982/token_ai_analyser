@@ -754,51 +754,25 @@ function showPreview(token, mouseX, mouseY) {
 }
 
 async function loadTokenAnalysis(token, container) {
+  // 显示加载状态
+  container.innerHTML = `
+    <div class="sol-token-loading" id="analysisLoadingIndicator">
+      <div class="sol-token-spinner"></div>
+      <span>正在分析数据...</span>
+    </div>
+  `;
+
+  console.log('准备发送分析请求:', token);
+
   try {
-    // 显示加载状态
-    container.innerHTML = `
-      <div class="sol-token-loading">
-        <div class="sol-token-spinner"></div>
-        <span>正在分析数据...</span>
-      </div>
-    `;
-
-    console.log('准备发送分析请求:', token);
-
-    // 使用Promise包装chrome.runtime.sendMessage
-    const result = await new Promise((resolve, reject) => {
-      chrome.runtime.sendMessage(
-        { action: "analyzeToken", token: token },
-        (response) => {
-          if (chrome.runtime.lastError) {
-            reject(new Error(chrome.runtime.lastError.message));
-          } else {
-            resolve(response);
-          }
-        }
-      );
-    });
-
-    // 检查结果
-    if (!result) {
-      throw new Error('未收到分析结果');
-    }
-
-    if (result.error) {
-      container.innerHTML = `
-        <div class="sol-tweet-summary">
-          <div class="sol-error-message">${result.error}</div>
-          <p class="sol-error-hint">提示：请检查扩展设置中的API密钥配置</p>
-        </div>
-      `;
-      return;
-    }
-
-    const { tokenInfo, tweetSummary } = result;
-
-    // 渲染分析结果
-    renderAnalysisResult(container, tokenInfo, tweetSummary);
-
+    // 使用 Promise 包装 chrome.runtime.sendMessage
+    chrome.runtime.sendMessage(
+      { action: "analyzeToken", token: token }
+    );
+    
+    // 注意：不再等待响应，而是通过消息监听器处理结果
+    // 这样加载动画会一直显示，直到收到结果
+    
   } catch (error) {
     console.error('Token analysis error:', error);
     container.innerHTML = `
@@ -1003,4 +977,27 @@ function closePreview(immediate = false) {
 window.addEventListener('load', () => {
   scanForSolanaTokens();
   setInterval(scanForSolanaTokens, 3000);
+});
+
+// 在内容脚本中添加这段代码
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "analysisResult") {
+    // 找到显示结果的容器
+    const activePreview = document.querySelector('.sol-token-preview');
+    if (!activePreview) return;
+    
+    const container = activePreview.querySelector('.sol-token-tab-content[data-content="summary"]');
+    if (container) {
+      if (message.error) {
+        container.innerHTML = `
+          <div class="sol-tweet-summary">
+            <div class="sol-error-message">分析出错</div>
+            <p class="sol-error-hint">${message.error}</p>
+          </div>
+        `;
+      } else {
+        renderAnalysisResult(container, message.data.tokenInfo, message.data.tweetSummary);
+      }
+    }
+  }
 });

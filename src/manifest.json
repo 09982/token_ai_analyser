@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Solana Token Analyzer",
-  "version": "1.0.0",
+  "name": "Token Analyzer",
+  "version": "2.0.0",
   "description": "Detect Solana tokens and provide AI-powered analysis",
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
@@ -11,7 +11,8 @@
     "https://*.bianxie.ai/*",
     "https://api.dexscreener.io/*",
     "https://*.rapidapi.com/*",
-    "https://www.gmgn.cc/*"
+    "https://www.gmgn.cc/*",
+    "http://38.148.244.168:3000/*"
   ],
   "background": {
     "service_worker": "background.js"
