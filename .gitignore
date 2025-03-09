@@ -68,3 +68,8 @@ debug.log
 # 可选 - 自定义构建工具相关
 /webpack.generated.js
 /parcel-cache/
+
+
+*.crx
+*.pem
+*.zip
